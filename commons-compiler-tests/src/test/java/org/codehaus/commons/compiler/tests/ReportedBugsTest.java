@@ -1253,6 +1253,18 @@ class ReportedBugsTest extends CommonsCompilerTestSuite {
         ));
     }
 
+    @Test public void
+    testIssue151() throws Exception {
+
+        // The original code was reduced to this snippet:
+        this.assertScriptCookable((
+            "double  a;\n" +       // <= Must be LONG or DOUBLE, and must not be initialized.
+            "boolean b;\n" +       // <= Must be declared *after* "a".
+            "b = true; a = 1;\n" + // <= In *that* order.
+            "System.out.println(b);//if (b) {}\n"
+        ));
+    }
+
     public ClassLoader
     compile(ClassLoader parentClassLoader, CompileUnit... compileUnits) {
 
